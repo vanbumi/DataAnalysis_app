@@ -1,6 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from tkinter import filedialog, messagebox
+from tkinter import filedialog, messagebox, scrolledtext
 import tkinter as tk
 from sklearn.linear_model import LinearRegression
 import numpy as np
@@ -25,6 +25,9 @@ class DataAnalysis:
 
         self.predict_btn = tk.Button(self.frame, text="Predict Sales", command=self.predict_sales)
         self.predict_btn.grid(row=0, column=3, padx=10)
+
+        self.output_text = scrolledtext.ScrolledText(self.root, width=60, height=15)
+        self.output_text.pack(pady=10)
 
     def import_csv(self):
         file_path = filedialog.askopenfilename()
@@ -85,6 +88,26 @@ class DataAnalysis:
                 plt.ylabel('Sales')
                 plt.legend()
                 plt.show()
+
+                explanation = (
+                    "### Sales Prediction Analysis\n\n"
+                    "The sales prediction chart shows a repeating pattern over the months, indicating possible "
+                    "seasonal trends. This trend can be attributed to:\n\n"
+                    "1. **Seasonal Trends**: Sales often fluctuate based on the time of year, with peaks during holidays "
+                    "or promotions and troughs during off-peak months.\n"
+                    "2. **Linear Regression Model**: The linear regression model provides a simple, linear relationship "
+                    "between months and sales, which may oversimplify complex sales dynamics.\n\n"
+                    "### Suggestions for Improving Sales\n\n"
+                    "1. **Promotional Campaigns**: Identify peak sales periods and plan promotions to boost sales during slower months.\n"
+                    "2. **Product Diversification**: Introduce new products to attract a broader audience and reduce dependency on best-sellers.\n"
+                    "3. **Customer Feedback**: Gather and analyze feedback to better understand customer needs and improve offerings.\n"
+                    "4. **Marketing Strategies**: Enhance marketing efforts using social media, email marketing, and other channels.\n"
+                    "5. **Inventory Management**: Maintain optimal stock levels to meet demand without overstocking.\n"
+                    "6. **Data Analysis**: Use more sophisticated models for sales prediction, like seasonal decomposition or machine learning techniques.\n"
+                )
+
+                self.output_text.delete(1.0, tk.END)
+                self.output_text.insert(tk.END, explanation)
             except Exception as e:
                 messagebox.showerror("Error", f"Failed to predict sales: {e}")
         else:
